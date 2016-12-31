@@ -1,0 +1,192 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>    
+    // http://www.tamas.io/simple-chat-application-using-node-js-and-socket-io/
+    // http://www.tamas.io/advanced-chat-using-node-js-and-socket-io-episode-1/
+    
+    // http://psitsmike.com/2011/10/node-js-and-socket-io-multiroom-chat-tutorial/
+    
+
+    
+      // socket.on('date', function(data){
+      //   $('.messages').append('<div>'+data.date+'<div>');
+      //   $(".messages").animate({ scrollTop: $('.messages')[0].scrollHeight}, 1000);
+      // });
+      
+      $(document).ready(function(){
+
+        var socket = io.connect();      
+
+        $('#user_message').focus();
+
+        $('#send').click(function(e){
+          socket.emit('client_data', {'letter': $('#user_message').val()});
+           $(".messages").animate({ scrollTop: $('.messages')[0].scrollHeight}, 100);
+
+          $('#user_message').val('').focus();
+        });
+        
+        //-------------------------------------------    
+        $('#user_message').keypress(function(e){
+            if(e.which == 13){
+                $('#send').click();
+            }
+        });        
+        
+        $('#start_discussion').click(function(){
+            $('.starter').fadeOut('fast',function(){
+                    $('#overlay').fadeOut('fast',function(){
+                        $('.container').fadeIn('fast');
+    
+                        socket.on('message',function(data) {
+                            $('.messages').append('<div>'+data+'<div>');
+                            $(".messages").animate({ scrollTop: $('.messages')[0].scrollHeight}, 1000);
+                        })
+                        
+                        socket.on('users',function(data) {
+                            for (var key in data) {
+                                    $('.users').append('<li>'+data[key]+'</li>');
+                                }
+                        })
+                        
+                        socket.emit('join', {'name': $('#name').val() });
+                    });
+            })
+        })
+
+      });
+    </script>
+    
+    <style type="text/css">
+    .chat{
+            border:1px solid #e7e7e7;
+            padding:4px;        
+            display: table-cell;
+            vertical-align: bottom;
+            height: 475px;
+            width: 1200px; 
+            background-color: #fff;      
+    }
+    .chat .messages{
+        max-height:530px;
+        overflow-y:auto; 
+    }   
+
+    #overlay{
+        background-color: #ccc;
+        z-index: 9999;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        margin: 0px;
+        padding:0px;
+
+        
+    }
+
+
+    .starter{
+            right:35%;
+    bottom: 50%;
+    transform: translate (50%,50%);
+    position: absolute;
+    }
+
+    .users{
+        margin: 0px;
+        padding: 0px;        
+    }
+
+    .users li{
+        list-style: none;
+        margin: 0px;  
+        padding: 1px 1px;
+        margin: 3px;
+    }
+
+    .users li:hover{
+        background-color: #ccc;
+        cursor: default;
+    }
+    </style>    
+    
+</head>
+<body>
+ 
+<div id="overlay" style="display: none;">
+    <div class="col-sm-4  col-sm-offset-4 starter">
+        <div class="input-group">
+          <input id="name" type="text" class="form-control" placeholder="Enter your name here">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="button" id="start_discussion">Start Discussion</button>
+          </span>      
+        </div>
+    </div>
+</div>
+
+<!-- <div class="container" style="display: none;padding-top: 20px;"> -->
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 7px;">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><i>Real Time Discussion</i></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="#">Home</a>
+                    </li>
+                    <li>
+                        <a href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-10" style="background-color: #f8f8f8;padding:20px 20px;">
+
+            <div class="chat">
+                <div class="messages"></div>        
+            </div>
+
+            <div class="group-control" style="margin-top:12px;">
+                <input type="text" placeholder="Enter your message here" id="user_message" class="form-control">
+                <button class="btn btn-primary pull-right" id="send" style="margin-top:6px;">Send</button>
+                </div>
+            </div>
+
+        <div class="col-sm-2" style="background-color:#eee;display: block;height: 601px;padding: 0px;border: 1px solid #e7e7e7;">
+            <ul class="users">
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+<!--http://stackoverflow.com/questions/10058226/send-response-to-all-clients-except-sender-socket-io-->

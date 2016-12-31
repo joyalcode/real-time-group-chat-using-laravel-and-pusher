@@ -1,0 +1,85 @@
+.navbar{
+    margin-bottom: 7px;
+}
+
+.chat{
+   border:1px solid #e7e7e7;
+   padding:4px;        
+   display: table-cell;
+   vertical-align: bottom;
+   height: 450px;
+   width: 1200px; 
+   background-color: #fff;      
+}
+
+.chat .messages{
+   max-height:400px;
+   overflow-y:auto; 
+}   
+
+#overlay{
+   background-color: #ccc;
+   z-index: 9999;
+   height: 100%;
+   width: 100%;
+   position: absolute;
+   margin: 0px;
+   padding:0px;
+}
+
+.starter{
+   right:35%;
+   bottom: 50%;
+   transform: translate (50%,50%);
+   position: absolute;
+}
+
+.users{
+   margin: 0px;
+   padding: 0px;        
+}
+
+.users li{
+   list-style: none;
+   margin: 0px;  
+   padding: 3px;
+}
+
+.users li:hover{
+   background-color: #ccc;
+   cursor: default;
+}
+
+.group-control{
+   margin-top:12px;
+}
+
+.main{
+   background-color: #f8f8f8;
+   padding:20px 20px;
+}
+
+.sidebar{
+   background-color:#eee;
+   display: block;
+   height: 490px;
+   width: 185px;
+   padding: 0px;
+   border: 1px solid #e7e7e7;
+   margin-left: 10px;
+}
+
+.users{
+   margin-left: 4px;
+}
+
+.btn-send{
+   margin-top:6px;
+}
+
+.sidebar h4{
+   text-align: center;
+   color: #999;
+   border-bottom: 1px #ccc solid;
+   padding-bottom: 8px;
+}
