@@ -32,6 +32,10 @@ var pusher = new Pusher('{{env("PUSHER_KEY")}}', {
     }
 });
 
+Pusher.log = function(msg){
+    console.log(msg);
+}
+
 var channel = pusher.subscribe('presence-chat');
 
 channel.bind('pusher:subscription_succeeded', function() {
@@ -89,7 +93,7 @@ $('#user_message').keypress(function(e){
 
 $('#logout').click(function(){
    pusher.unsubscribe('presence-chat');
-   window.location = '.'
+   window.location = 'logout'
 })
 
 </script>
