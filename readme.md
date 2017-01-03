@@ -15,6 +15,6 @@ PUSHER_SECRET=<br>
 <br>
 php artisan key:generate <br>
 
-Open the application on browser 
+Open the application in browser 
 
 
