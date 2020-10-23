@@ -8,7 +8,7 @@ git clone https://github.com/icodeweb/real-time-group-chat-using-laravel-and-pus
 cd real-time-group-chat-using-laravel-and-pusher <br>
 composer install <br>
 cp .env.example .env <br>
-open .evn file and add values for the following pusher variables (you can get the values from the app you created at pusher.com)<br><br>
+open .env file and add values for the following pusher variables (you can get the values from the app you created at pusher.com)<br><br>
 PUSHER_APP_ID=<br>
 PUSHER_KEY=<br>
 PUSHER_SECRET=<br>
